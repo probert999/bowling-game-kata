@@ -1,3 +1,4 @@
+package com.probert999.bowlinggame;
 /*
 Each game includes “frames”
 In each frame, the bowler gets up to two tries to knock down all the pins.
@@ -22,40 +23,38 @@ We will not check for correct number of rolls and frames.
 We will not provide scores for intermediate frames.
  */
 
-
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.Assert;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class BowlingScoreTest {
 
-    @Test
-    public void shouldReturnAScoreOfZero()
-    {
-        // Arrange
-        BowlingScore bowlingGame = new BowlingScore();
-        String gameDetail = "-- -- -- -- -- -- -- -- -- --";
-
-        // Act
-        int gameScore = bowlingGame.getScore(gameDetail);
-
-        // Assert
-        assertEquals(0, gameScore);
+    @ParameterizedTest
+    @MethodSource("com.probert999.bowlinggame.BowlingGameTestData#noSparesOrStrikes")
+    void shouldReturnCorrectScoresForNoSparesOrStrikesTestData(
+            int expectedValue, String gameData) {
+        Assert.assertEquals(expectedValue, BowlingScore.getScore(gameData));
     }
 
-    @Test
-    public void shouldReturnAScoreOfOne()
-    {
-        // Arrange
-        BowlingScore bowlingGame = new BowlingScore();
-        String gameDetail = "1- -- -- -- -- -- -- -- -- --";
-
-        // Act
-        int gameScore = bowlingGame.getScore(gameDetail);
-
-        // Assert
-        assertEquals(1, gameScore);
+    @ParameterizedTest
+    @MethodSource("com.probert999.bowlinggame.BowlingGameTestData#strikes")
+    void shouldReturnCorrectScoresForStrikesTestData(
+            int expectedValue, String gameData) {
+        Assert.assertEquals(expectedValue, BowlingScore.getScore(gameData));
     }
 
+    @ParameterizedTest
+    @MethodSource("com.probert999.bowlinggame.BowlingGameTestData#spares")
+    void shouldReturnCorrectScoresForSparesTestData(
+            int expectedValue, String gameData) {
+        Assert.assertEquals(expectedValue, BowlingScore.getScore(gameData));
+    }
+
+    @ParameterizedTest
+    @MethodSource("com.probert999.bowlinggame.BowlingGameTestData#bonusThrows")
+    void shouldReturnCorrectScoresForBonusThrowsTestData(
+            int expectedValue, String gameData) {
+        Assert.assertEquals(expectedValue, BowlingScore.getScore(gameData));
+    }
 
 }
